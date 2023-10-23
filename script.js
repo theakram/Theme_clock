@@ -9,7 +9,15 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 toggle.addEventListener('click', (e) => {
- 
+    const html = document.querySelector('html');
+    if(html.classList.contains('dark')){
+        html.classList.remove('dark');
+        e.target.innerHTML = 'Dark Mode';
+    }else{
+        html.classList.add('dark')
+        e.target.innerHTML = 'Light Mode';
+    }
+
 })
 
 function setTime() {
@@ -19,13 +27,23 @@ function setTime() {
     const date = time.getDate();
     const hours = time.getHours();
     console.log("time",time,month,day,date,hours);
+
     const hoursForClock = hours >=13 ? hours -12 : hours;
     const minutes = time.getMinutes();
     const seconds = time.getSeconds();
     const amPm = hours>12 ? 'PM' :'AM';
+    
     hourEl.style.transform = `translate(-50%, -100%) rotate(${scale(hoursForClock,0,12,0,360)}deg)`;
-    minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(minutesForClock,0,60,0,360)}deg`;
-    secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(secondsForClock,0,60,0,360)}deg`;
+    
+    minuteEl.style.transform = `translate(-50%, -100%) rotate(${scale(minutes,0,60,0,360)}deg`;
+    
+    secondEl.style.transform = `translate(-50%, -100%) rotate(${scale(seconds,0,60,0,360)}deg`;
+    
+    timeEl.innerHTML = `${hoursForClock}:${minutes < 10 ? `0${minutes}`: minutes} ${amPm}`;
+    
+    dateEl.innerHTML = `${days[day]}, ${months[month]} <span class="circle"> ${date} </span>`;
+
+
 }
 
 
